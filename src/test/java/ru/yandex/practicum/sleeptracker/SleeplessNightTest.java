@@ -77,4 +77,95 @@ class SleeplessNightTest {
 
         assertEquals(0L, result.getOutcome());
     }
+
+    @Test
+    void shouldCountSleeplessNightsWithGapInTheMiddle() {
+        List<SleepingSession> sessions = List.of(
+                new SleepingSession(
+                        LocalDateTime.of(2025, 10, 1, 23, 0),
+                        LocalDateTime.of(2025, 10, 2, 6, 30),
+                        QualityOfSleep.GOOD
+                ),
+                new SleepingSession(
+                        LocalDateTime.of(2025, 10, 3, 23, 0),
+                        LocalDateTime.of(2025, 10, 4, 6, 30),
+                        QualityOfSleep.GOOD
+                )
+        );
+
+        SleepAnalysisResult<?> result = sleeplessNight.apply(sessions);
+
+        assertEquals(1L, result.getOutcome());
+    }
+
+    @Test
+    void shouldWorkAcrossAllMonth() {
+
+        List<SleepingSession> sessions = List.of(
+                new SleepingSession(
+                        LocalDateTime.of(2025, 9, 30, 23, 0),
+                        LocalDateTime.of(2025, 10, 1, 6, 0),
+                        QualityOfSleep.GOOD
+                ),
+
+                new SleepingSession(
+                        LocalDateTime.of(2025, 10, 2, 23, 0),
+                        LocalDateTime.of(2025, 10, 3, 6, 0),
+                        QualityOfSleep.GOOD
+                )
+        );
+
+        SleepAnalysisResult<?> result = sleeplessNight.apply(sessions);
+
+        assertEquals(1L, result.getOutcome());
+    }
+
+    @Test
+    void shouldIgnoreDaytimeSessionBetweenNights() {
+
+        List<SleepingSession> sessions = List.of(
+                new SleepingSession(
+                        LocalDateTime.of(2025, 10, 1, 23, 0),
+                        LocalDateTime.of(2025, 10, 2, 6, 30),
+                        QualityOfSleep.GOOD
+                ),
+                // дневная сессия
+                new SleepingSession(
+                        LocalDateTime.of(2025, 10, 2, 14, 0),
+                        LocalDateTime.of(2025, 10, 2, 15, 30),
+                        QualityOfSleep.NORMAL
+                ),
+                new SleepingSession(
+                        LocalDateTime.of(2025, 10, 2, 23, 0),
+                        LocalDateTime.of(2025, 10, 3, 6, 30),
+                        QualityOfSleep.GOOD
+                )
+        );
+
+        SleepAnalysisResult<?> result = sleeplessNight.apply(sessions);
+
+        assertEquals(0L, result.getOutcome());
+    }
+
+    @Test
+    void shouldCountSeveralSleeplessNightsInARow() {
+
+        List<SleepingSession> sessions = List.of(
+                new SleepingSession(
+                        LocalDateTime.of(2025, 10, 1, 23, 0),
+                        LocalDateTime.of(2025, 10, 2, 6, 0),
+                        QualityOfSleep.GOOD
+                ),
+                // большие пропуски до 5 октября
+                new SleepingSession(
+                        LocalDateTime.of(2025, 10, 5, 23, 0),
+                        LocalDateTime.of(2025, 10, 6, 6, 0),
+                        QualityOfSleep.GOOD
+                )
+        );
+
+        SleepAnalysisResult<?> result = sleeplessNight.apply(sessions);
+
+        assertEquals(3L, result.getOutcome());
+    }
 }
