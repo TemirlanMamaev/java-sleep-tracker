@@ -156,7 +156,7 @@ class SleeplessNightTest {
                         LocalDateTime.of(2025, 10, 2, 6, 0),
                         QualityOfSleep.GOOD
                 ),
-                // большие пропуски до 5 октября
+                
                 new SleepingSession(
                         LocalDateTime.of(2025, 10, 5, 23, 0),
                         LocalDateTime.of(2025, 10, 6, 6, 0),
