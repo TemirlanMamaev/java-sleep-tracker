@@ -129,7 +129,7 @@ class SleeplessNightTest {
                         LocalDateTime.of(2025, 10, 2, 6, 30),
                         QualityOfSleep.GOOD
                 ),
-                // дневная сессия
+                
                 new SleepingSession(
                         LocalDateTime.of(2025, 10, 2, 14, 0),
                         LocalDateTime.of(2025, 10, 2, 15, 30),
@@ -156,7 +156,7 @@ class SleeplessNightTest {
                         LocalDateTime.of(2025, 10, 2, 6, 0),
                         QualityOfSleep.GOOD
                 ),
-                
+
                 new SleepingSession(
                         LocalDateTime.of(2025, 10, 5, 23, 0),
                         LocalDateTime.of(2025, 10, 6, 6, 0),
