@@ -12,7 +12,7 @@ public class MaxSessionDuration implements Function<List<SleepingSession>, Sleep
                         session.getEndOfSleep()
                 ).toMinutes())
                 .max()
-                .getAsLong();
+                .orElse(-1L);
         return new SleepAnalysisResult<>("Максимальная сессия сна", duration);
     }
 }

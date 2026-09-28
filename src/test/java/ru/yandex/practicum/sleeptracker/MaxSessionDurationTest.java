@@ -50,4 +50,10 @@ class MaxSessionDurationTest {
 
         assertEquals(600L, result.getOutcome());
     }
+
+    @Test
+    void shouldReturnMinusOneForEmptyList() {
+        SleepAnalysisResult<?> result = maxSessionDuration.apply(List.of());
+        assertEquals(-1L, result.getOutcome());
+    }
 }

@@ -12,7 +12,7 @@ public class AverageSessionDuration implements Function<List<SleepingSession>, S
                         session.getEndOfSleep()
                 ).toMinutes())
                 .average()
-                .getAsDouble();
+                .orElse(-1.0);
         return new SleepAnalysisResult<>("Средняя продолжительность сессии сна", duration);
     }
 }

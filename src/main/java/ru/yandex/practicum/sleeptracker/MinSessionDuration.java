@@ -12,7 +12,7 @@ public class MinSessionDuration implements Function<List<SleepingSession>, Sleep
                         session.getEndOfSleep()
                 ).toMinutes())
                 .min()
-                .getAsLong();
+                .orElse(-1L);
         return new SleepAnalysisResult<>("Минимальная сессия сна", duration);
     }
 }

@@ -102,4 +102,14 @@ class ChronotypeTest {
 
         assertEquals("голубь", result.getOutcome());
     }
+
+    @Test
+    void shouldRecognizeOwlWhenSleepStartsAfterMidnight() {
+        List<SleepingSession> sessions = List.of
+                (new SleepingSession(LocalDateTime.of(2025, 10, 1, 0, 30),
+                        LocalDateTime.of(2025, 10, 1, 10, 0), QualityOfSleep.GOOD));
+        SleepAnalysisResult<?> result = chronotype.apply(sessions);
+
+        assertEquals("сова", result.getOutcome());
+    }
 }

@@ -50,4 +50,11 @@ class AverageSessionDurationTest {
 
         assertEquals(490L, result.getOutcome());
     }
+
+    @Test
+    void shouldReturnMinusOneForEmptyList() {
+        SleepAnalysisResult<?> result = averageSessionDuration.apply(List.of());
+
+        assertEquals(-1L, result.getOutcome());
+    }
 }

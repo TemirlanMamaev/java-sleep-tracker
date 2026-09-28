@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 public class SleepTrackerApp {
 
@@ -21,6 +22,7 @@ public class SleepTrackerApp {
 
     public static void main(String[] args) {
         if (args.length == 0) {
+            System.out.println("Укажите путь к файлу.");
             return;
         }
 
@@ -40,16 +42,19 @@ public class SleepTrackerApp {
     private static List<SleepingSession> readSessions(String filePath) throws Exception {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy HH:mm");
 
-        return Files.lines(Path.of(filePath))
-                .map(line -> {
-                    String[] parts = line.split(";");
+        try (Stream<String> lines = Files.lines(Path.of(filePath))) {
+            return lines
+                    .filter(line -> !line.isBlank())
+                    .map(line -> {
+                        String[] parts = line.split(";");
 
-                    LocalDateTime start = LocalDateTime.parse(parts[0].trim(), formatter);
-                    LocalDateTime end = LocalDateTime.parse(parts[1].trim(), formatter);
-                    QualityOfSleep quality = QualityOfSleep.valueOf(parts[2].trim());
+                        LocalDateTime start = LocalDateTime.parse(parts[0].trim(), formatter);
+                        LocalDateTime end = LocalDateTime.parse(parts[1].trim(), formatter);
+                        QualityOfSleep quality = QualityOfSleep.valueOf(parts[2].trim());
 
-                    return new SleepingSession(start, end, quality);
-                })
-                .toList();
+                        return new SleepingSession(start, end, quality);
+                    })
+                    .toList();
+        }
     }
 }

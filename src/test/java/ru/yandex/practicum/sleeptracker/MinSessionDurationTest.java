@@ -50,4 +50,11 @@ class MinSessionDurationTest {
 
         assertEquals(390L, result.getOutcome());
     }
+
+    @Test
+    void shouldReturnMinusOneForEmptyList() {
+        SleepAnalysisResult<?> result = minSessionDuration.apply(List.of());
+
+        assertEquals(-1L, result.getOutcome());
+    }
 }
