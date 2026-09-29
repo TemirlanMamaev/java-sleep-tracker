@@ -10,15 +10,9 @@ import java.util.stream.Stream;
 
 public class SleepTrackerApp {
 
-    private static final List<Function<List<SleepingSession>, SleepAnalysisResult<?>>> functions = List.of(
-            new TotalSessions(),
-            new BadSessions(),
-            new MinSessionDuration(),
-            new MaxSessionDuration(),
-            new AverageSessionDuration(),
-            new SleeplessNight(),
-            new Chronotype()
-    );
+    private static final List<Function<List<SleepingSession>, SleepAnalysisResult<?>>> functions =
+            List.of(new TotalSessions(), new BadSessions(), new MinSessionDuration(), new MaxSessionDuration(),
+                    new AverageSessionDuration(), new SleeplessNight(), new Chronotype());
 
     public static void main(String[] args) {
         if (args.length == 0) {
@@ -28,11 +22,14 @@ public class SleepTrackerApp {
 
         try {
             List<SleepingSession> sessions = readSessions(args[0]);
-            functions.stream()
-                    .map(function -> function.apply(sessions))
-                    .forEach(result ->
-                            System.out.println(result.getDescription() + ": " + result.getOutcome())
-                    );
+            functions.stream().map(function -> function.apply(sessions)).forEach(result -> {
+                if (result.getOutcome() instanceof Long value && value == -1L) {
+                    System.out.println(result.getDescription() + ": нет данных");
+                } else {
+                    System.out.println(result.getDescription() + ": " + result.getOutcome());
+                }
+            });
+
 
         } catch (Exception e) {
             System.out.println("Ошибка: " + e.getMessage());
@@ -43,18 +40,15 @@ public class SleepTrackerApp {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy HH:mm");
 
         try (Stream<String> lines = Files.lines(Path.of(filePath))) {
-            return lines
-                    .filter(line -> !line.isBlank())
-                    .map(line -> {
-                        String[] parts = line.split(";");
+            return lines.filter(line -> !line.isBlank()).map(line -> {
+                String[] parts = line.split(";");
 
-                        LocalDateTime start = LocalDateTime.parse(parts[0].trim(), formatter);
-                        LocalDateTime end = LocalDateTime.parse(parts[1].trim(), formatter);
-                        QualityOfSleep quality = QualityOfSleep.valueOf(parts[2].trim());
+                LocalDateTime start = LocalDateTime.parse(parts[0].trim(), formatter);
+                LocalDateTime end = LocalDateTime.parse(parts[1].trim(), formatter);
+                QualityOfSleep quality = QualityOfSleep.valueOf(parts[2].trim());
 
-                        return new SleepingSession(start, end, quality);
-                    })
-                    .toList();
+                return new SleepingSession(start, end, quality);
+            }).toList();
         }
     }
 }

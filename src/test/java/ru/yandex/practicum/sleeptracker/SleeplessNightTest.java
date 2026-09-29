@@ -20,7 +20,8 @@ class SleeplessNightTest {
 
     @Test
     void shouldReturnZeroWhenThereWasSleepAtNight() {
-        List<SleepingSession> sessions = List.of(new SleepingSession(LocalDateTime.of(2025, 10, 1, 23, 0), LocalDateTime.of(2025, 10, 2, 6, 0), QualityOfSleep.GOOD));
+        List<SleepingSession> sessions = List.of(new SleepingSession(LocalDateTime.of(2025, 10, 1, 23, 0),
+                LocalDateTime.of(2025, 10, 2, 6, 0), QualityOfSleep.GOOD));
 
         SleepAnalysisResult<?> result = sleeplessNight.apply(sessions);
 
@@ -29,7 +30,8 @@ class SleeplessNightTest {
 
     @Test
     void shouldReturnOneWhenThereWasNoSleepAtNight() {
-        List<SleepingSession> sessions = List.of(new SleepingSession(LocalDateTime.of(2025, 10, 1, 7, 0), LocalDateTime.of(2025, 10, 1, 11, 0), QualityOfSleep.GOOD));
+        List<SleepingSession> sessions = List.of(new SleepingSession(LocalDateTime.of(2025, 10, 1, 7, 0),
+                LocalDateTime.of(2025, 10, 1, 11, 0), QualityOfSleep.GOOD));
 
         SleepAnalysisResult<?> result = sleeplessNight.apply(sessions);
 
@@ -38,7 +40,8 @@ class SleeplessNightTest {
 
     @Test
     void shouldNotCountNightAsSleeplessWhenSleepWasFrom23To3() {
-        List<SleepingSession> sessions = List.of(new SleepingSession(LocalDateTime.of(2025, 10, 1, 23, 0), LocalDateTime.of(2025, 10, 2, 3, 0), QualityOfSleep.GOOD));
+        List<SleepingSession> sessions = List.of(new SleepingSession(LocalDateTime.of(2025, 10, 1, 23, 0),
+                LocalDateTime.of(2025, 10, 2, 3, 0), QualityOfSleep.GOOD));
 
         SleepAnalysisResult<?> result = sleeplessNight.apply(sessions);
 
@@ -47,7 +50,8 @@ class SleeplessNightTest {
 
     @Test
     void shouldNotCountNightAsSleeplessWhenSleepWasFrom2To7() {
-        List<SleepingSession> sessions = List.of(new SleepingSession(LocalDateTime.of(2025, 10, 2, 2, 0), LocalDateTime.of(2025, 10, 2, 7, 0), QualityOfSleep.GOOD));
+        List<SleepingSession> sessions = List.of(new SleepingSession(LocalDateTime.of(2025, 10, 2, 2, 0),
+                LocalDateTime.of(2025, 10, 2, 7, 0), QualityOfSleep.GOOD));
 
         SleepAnalysisResult<?> result = sleeplessNight.apply(sessions);
 
@@ -56,7 +60,10 @@ class SleeplessNightTest {
 
     @Test
     void shouldCountSleeplessNightsWithGapInTheMiddle() {
-        List<SleepingSession> sessions = List.of(new SleepingSession(LocalDateTime.of(2025, 10, 1, 23, 0), LocalDateTime.of(2025, 10, 2, 6, 30), QualityOfSleep.GOOD), new SleepingSession(LocalDateTime.of(2025, 10, 3, 23, 0), LocalDateTime.of(2025, 10, 4, 6, 30), QualityOfSleep.GOOD));
+        List<SleepingSession> sessions = List.of(new SleepingSession(LocalDateTime.of(2025, 10, 1, 23, 0),
+                LocalDateTime.of(2025, 10, 2, 6, 30), QualityOfSleep.GOOD),
+                new SleepingSession(LocalDateTime.of(2025, 10, 3, 23, 0),
+                        LocalDateTime.of(2025, 10, 4, 6, 30), QualityOfSleep.GOOD));
 
         SleepAnalysisResult<?> result = sleeplessNight.apply(sessions);
 
@@ -66,9 +73,11 @@ class SleeplessNightTest {
     @Test
     void shouldWorkAcrossAllMonth() {
 
-        List<SleepingSession> sessions = List.of(new SleepingSession(LocalDateTime.of(2025, 9, 30, 23, 0), LocalDateTime.of(2025, 10, 1, 6, 0), QualityOfSleep.GOOD),
+        List<SleepingSession> sessions = List.of(new SleepingSession(LocalDateTime.of(2025, 9, 30, 23, 0),
+                        LocalDateTime.of(2025, 10, 1, 6, 0), QualityOfSleep.GOOD),
 
-                new SleepingSession(LocalDateTime.of(2025, 10, 2, 23, 0), LocalDateTime.of(2025, 10, 3, 6, 0), QualityOfSleep.GOOD));
+                new SleepingSession(LocalDateTime.of(2025, 10, 2, 23, 0),
+                        LocalDateTime.of(2025, 10, 3, 6, 0), QualityOfSleep.GOOD));
 
         SleepAnalysisResult<?> result = sleeplessNight.apply(sessions);
 
@@ -78,9 +87,13 @@ class SleeplessNightTest {
     @Test
     void shouldIgnoreDaytimeSessionBetweenNights() {
 
-        List<SleepingSession> sessions = List.of(new SleepingSession(LocalDateTime.of(2025, 10, 1, 23, 0), LocalDateTime.of(2025, 10, 2, 6, 30), QualityOfSleep.GOOD),
+        List<SleepingSession> sessions = List.of(new SleepingSession(LocalDateTime.of(2025, 10, 1, 23, 0),
+                        LocalDateTime.of(2025, 10, 2, 6, 30), QualityOfSleep.GOOD),
 
-                new SleepingSession(LocalDateTime.of(2025, 10, 2, 14, 0), LocalDateTime.of(2025, 10, 2, 15, 30), QualityOfSleep.NORMAL), new SleepingSession(LocalDateTime.of(2025, 10, 2, 23, 0), LocalDateTime.of(2025, 10, 3, 6, 30), QualityOfSleep.GOOD));
+                new SleepingSession(LocalDateTime.of(2025, 10, 2, 14, 0),
+                        LocalDateTime.of(2025, 10, 2, 15, 30), QualityOfSleep.NORMAL),
+                new SleepingSession(LocalDateTime.of(2025, 10, 2, 23, 0),
+                        LocalDateTime.of(2025, 10, 3, 6, 30), QualityOfSleep.GOOD));
 
         SleepAnalysisResult<?> result = sleeplessNight.apply(sessions);
 
@@ -90,9 +103,11 @@ class SleeplessNightTest {
     @Test
     void shouldCountSeveralSleeplessNightsInARow() {
 
-        List<SleepingSession> sessions = List.of(new SleepingSession(LocalDateTime.of(2025, 10, 1, 23, 0), LocalDateTime.of(2025, 10, 2, 6, 0), QualityOfSleep.GOOD),
+        List<SleepingSession> sessions = List.of(new SleepingSession(LocalDateTime.of(2025, 10, 1, 23, 0),
+                        LocalDateTime.of(2025, 10, 2, 6, 0), QualityOfSleep.GOOD),
 
-                new SleepingSession(LocalDateTime.of(2025, 10, 5, 23, 0), LocalDateTime.of(2025, 10, 6, 6, 0), QualityOfSleep.GOOD));
+                new SleepingSession(LocalDateTime.of(2025, 10, 5, 23, 0),
+                        LocalDateTime.of(2025, 10, 6, 6, 0), QualityOfSleep.GOOD));
 
         SleepAnalysisResult<?> result = sleeplessNight.apply(sessions);
 

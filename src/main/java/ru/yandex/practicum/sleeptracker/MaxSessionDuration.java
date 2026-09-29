@@ -7,12 +7,10 @@ public class MaxSessionDuration implements Function<List<SleepingSession>, Sleep
     @Override
     public SleepAnalysisResult<?> apply(List<SleepingSession> sessions) {
         long duration = sessions.stream()
-                .mapToLong(session -> java.time.Duration.between(
-                        session.getStartOfSleep(),
-                        session.getEndOfSleep()
-                ).toMinutes())
+                .mapToLong(session -> session.getDurationInMinutes())
                 .max()
                 .orElse(-1L);
-        return new SleepAnalysisResult<>("Максимальная сессия сна", duration);
+
+        return new SleepAnalysisResult<>("Максимальная продолжительность сессии сна, мин.", duration);
     }
 }
