@@ -20,11 +20,23 @@ class ChronotypeTest {
 
     @Test
     void shouldReturnOwlWhenOwlSessionsAreMoreCommon() {
-        List<SleepingSession> sessions = List.of(new SleepingSession(LocalDateTime.of(2025, 10, 1, 23, 30),
-                LocalDateTime.of(2025, 10, 2, 10, 0), QualityOfSleep.GOOD), new SleepingSession(LocalDateTime.of(2025
-                , 10, 2, 23, 30), LocalDateTime.of(2025, 10, 3, 10, 0), QualityOfSleep.GOOD),
-                new SleepingSession(LocalDateTime.of(2025, 10, 3, 21, 0), LocalDateTime.of(2025, 10, 4, 6, 0),
-                        QualityOfSleep.GOOD));
+        List<SleepingSession> sessions = List.of(
+                new SleepingSession(
+                        LocalDateTime.of(2025, 10, 1, 23, 30),
+                        LocalDateTime.of(2025, 10, 2, 10, 0),
+                        QualityOfSleep.GOOD
+                ),
+                new SleepingSession(
+                        LocalDateTime.of(2025, 10, 2, 23, 30),
+                        LocalDateTime.of(2025, 10, 3, 10, 0),
+                        QualityOfSleep.GOOD
+                ),
+                new SleepingSession(
+                        LocalDateTime.of(2025, 10, 3, 21, 0),
+                        LocalDateTime.of(2025, 10, 4, 6, 0),
+                        QualityOfSleep.GOOD
+                )
+        );
 
         SleepAnalysisResult<?> result = chronotype.apply(sessions);
 
@@ -33,11 +45,23 @@ class ChronotypeTest {
 
     @Test
     void shouldReturnLarkWhenLarkSessionsAreMoreCommon() {
-        List<SleepingSession> sessions = List.of(new SleepingSession(LocalDateTime.of(2025, 10, 1, 21, 0),
-                LocalDateTime.of(2025, 10, 2, 6, 0), QualityOfSleep.GOOD), new SleepingSession(LocalDateTime.of(2025,
-                10, 2, 21, 30), LocalDateTime.of(2025, 10, 3, 6, 30), QualityOfSleep.GOOD),
-                new SleepingSession(LocalDateTime.of(2025, 10, 3, 23, 30), LocalDateTime.of(2025, 10, 4, 10, 0),
-                        QualityOfSleep.GOOD));
+        List<SleepingSession> sessions = List.of(
+                new SleepingSession(
+                        LocalDateTime.of(2025, 10, 1, 21, 0),
+                        LocalDateTime.of(2025, 10, 2, 6, 0),
+                        QualityOfSleep.GOOD
+                ),
+                new SleepingSession(
+                        LocalDateTime.of(2025, 10, 2, 21, 30),
+                        LocalDateTime.of(2025, 10, 3, 6, 30),
+                        QualityOfSleep.GOOD
+                ),
+                new SleepingSession(
+                        LocalDateTime.of(2025, 10, 3, 23, 30),
+                        LocalDateTime.of(2025, 10, 4, 10, 0),
+                        QualityOfSleep.GOOD
+                )
+        );
 
         SleepAnalysisResult<?> result = chronotype.apply(sessions);
 
@@ -45,10 +69,19 @@ class ChronotypeTest {
     }
 
     @Test
-    void shouldReturnPijeonWhenTypesAreEqual() {
-        List<SleepingSession> sessions = List.of(new SleepingSession(LocalDateTime.of(2025, 10, 1, 23, 30),
-                LocalDateTime.of(2025, 10, 2, 10, 0), QualityOfSleep.GOOD), new SleepingSession(LocalDateTime.of(2025
-                , 10, 2, 21, 0), LocalDateTime.of(2025, 10, 3, 6, 0), QualityOfSleep.GOOD));
+    void shouldReturnPigeonWhenTypesAreEqual() {
+        List<SleepingSession> sessions = List.of(
+                new SleepingSession(
+                        LocalDateTime.of(2025, 10, 1, 23, 30),
+                        LocalDateTime.of(2025, 10, 2, 10, 0),
+                        QualityOfSleep.GOOD
+                ),
+                new SleepingSession(
+                        LocalDateTime.of(2025, 10, 2, 21, 0),
+                        LocalDateTime.of(2025, 10, 3, 6, 0),
+                        QualityOfSleep.GOOD
+                )
+        );
 
         SleepAnalysisResult<?> result = chronotype.apply(sessions);
 
@@ -57,8 +90,13 @@ class ChronotypeTest {
 
     @Test
     void shouldIgnoreDaytimeSleep() {
-        List<SleepingSession> sessions = List.of(new SleepingSession(LocalDateTime.of(2025, 10, 1, 13, 0),
-                LocalDateTime.of(2025, 10, 1, 15, 0), QualityOfSleep.GOOD));
+        List<SleepingSession> sessions = List.of(
+                new SleepingSession(
+                        LocalDateTime.of(2025, 10, 1, 13, 0),
+                        LocalDateTime.of(2025, 10, 1, 15, 0),
+                        QualityOfSleep.GOOD
+                )
+        );
 
         SleepAnalysisResult<?> result = chronotype.apply(sessions);
 
@@ -67,8 +105,14 @@ class ChronotypeTest {
 
     @Test
     void shouldRecognizeOwlWhenSleepStartsAfterMidnight() {
-        List<SleepingSession> sessions = List.of(new SleepingSession(LocalDateTime.of(2025, 10, 1, 0, 30),
-                LocalDateTime.of(2025, 10, 1, 10, 0), QualityOfSleep.GOOD));
+        List<SleepingSession> sessions = List.of(
+                new SleepingSession(
+                        LocalDateTime.of(2025, 10, 1, 0, 30),
+                        LocalDateTime.of(2025, 10, 1, 10, 0),
+                        QualityOfSleep.GOOD
+                )
+        );
+
         SleepAnalysisResult<?> result = chronotype.apply(sessions);
 
         assertEquals(ChronotypeType.OWL, result.getOutcome());
@@ -76,8 +120,13 @@ class ChronotypeTest {
 
     @Test
     void shouldIgnoreMorningSession() {
-        List<SleepingSession> sessions = List.of(new SleepingSession(LocalDateTime.of(2025, 10, 1, 8, 0),
-                LocalDateTime.of(2025, 10, 1, 11, 0), QualityOfSleep.GOOD));
+        List<SleepingSession> sessions = List.of(
+                new SleepingSession(
+                        LocalDateTime.of(2025, 10, 1, 8, 0),
+                        LocalDateTime.of(2025, 10, 1, 11, 0),
+                        QualityOfSleep.GOOD
+                )
+        );
 
         SleepAnalysisResult<?> result = chronotype.apply(sessions);
 
@@ -86,8 +135,13 @@ class ChronotypeTest {
 
     @Test
     void shouldNotRecognizeLarkWhenSleepStartsAfterMidnight() {
-        List<SleepingSession> sessions = List.of(new SleepingSession(LocalDateTime.of(2025, 10, 5, 0, 10),
-                LocalDateTime.of(2025, 10, 5, 6, 20), QualityOfSleep.GOOD));
+        List<SleepingSession> sessions = List.of(
+                new SleepingSession(
+                        LocalDateTime.of(2025, 10, 5, 0, 10),
+                        LocalDateTime.of(2025, 10, 5, 6, 20),
+                        QualityOfSleep.GOOD
+                )
+        );
 
         SleepAnalysisResult<?> result = chronotype.apply(sessions);
 
@@ -96,14 +150,21 @@ class ChronotypeTest {
 
     @Test
     void shouldTreatSeveralSessionsAsOneNight() {
-        List<SleepingSession> sessions = List.of(new SleepingSession(LocalDateTime.of(2025, 10, 1, 23, 30),
-                LocalDateTime.of(2025, 10, 2, 2, 0), QualityOfSleep.GOOD), new SleepingSession(LocalDateTime.of(2025,
-                10, 2, 2, 30), LocalDateTime.of(2025, 10, 2, 10, 0), QualityOfSleep.GOOD));
+        List<SleepingSession> sessions = List.of(
+                new SleepingSession(
+                        LocalDateTime.of(2025, 10, 1, 23, 30),
+                        LocalDateTime.of(2025, 10, 2, 2, 0),
+                        QualityOfSleep.GOOD
+                ),
+                new SleepingSession(
+                        LocalDateTime.of(2025, 10, 2, 2, 30),
+                        LocalDateTime.of(2025, 10, 2, 10, 0),
+                        QualityOfSleep.GOOD
+                )
+        );
 
         SleepAnalysisResult<?> result = chronotype.apply(sessions);
 
         assertEquals(ChronotypeType.OWL, result.getOutcome());
     }
-
-
 }
